@@ -10,7 +10,12 @@
   <body>
     <div id="root"></div>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <script type="module" src="/dist/index.js"></script>
+    <script type="module" src="/dist/index.js">
+      if (typeof SharedArrayBuffer === 'undefined') {
+        const dummyMemory = new WebAssembly.Memory({ initial: 0, maximum: 0, shared: true })
+        globalThis.SharedArrayBuffer = dummyMemory.buffer.constructor
+      }
+    </script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
